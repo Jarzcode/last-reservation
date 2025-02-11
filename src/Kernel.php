@@ -1,6 +1,6 @@
 <?php
 
-namespace TreeNation;
+namespace LastReservation;
 
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\HttpKernel\Kernel as BaseKernel;

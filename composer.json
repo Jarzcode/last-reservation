@@ -53,7 +53,7 @@
     "autoload": {
         "psr-4": {
             "App\\": "app/",
-            "TreeNation\\": "src/"
+            "LastReservation\\": "src/"
         }
     },
     "autoload-dev": {
