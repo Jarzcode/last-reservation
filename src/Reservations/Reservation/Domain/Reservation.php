@@ -29,7 +29,6 @@ class Reservation extends AggregateRoot
         TableId $tableId,
         ReservationName $name,
         ReservationStartDate $startDate,
-        ReservationEndDate $endDate,
         ReservationPartySize $partySize,
     ): self {
         $reservation = new self(
@@ -38,7 +37,7 @@ class Reservation extends AggregateRoot
             tableId: $tableId,
             name: $name,
             startDate: $startDate,
-            endDate: $endDate,
+            endDate: $startDate, //TODO: startDate + 45 min
             status: ReservationStatus::PENDING,
             partySize: $partySize,
         );
