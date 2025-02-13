@@ -6,17 +6,16 @@ namespace LastReservation\Reservations\Table\Domain;
 
 use LastReservation\Shared\Domain\AggregateRoot;
 use LastReservation\Shared\Domain\RestaurantId;
-use LastReservation\Reservations\Table\Domain\Event\TableCreated;
 
 class Table extends AggregateRoot
 {
-    private function __construct(
+    public function __construct(
         private readonly TableId $id,
         private readonly RestaurantId $restaurantId,
         private readonly TableName $name,
         private readonly TableCapacity $capacity,
         private readonly TableLocation $location,
-        private readonly TableDescription $description,
+        private readonly ?TableDescription $description,
     ){
     }
 
