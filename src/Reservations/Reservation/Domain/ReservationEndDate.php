@@ -25,4 +25,4 @@ final class ReservationEndDate
     {
         return $this->value;
     }
-} 
+}

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace LastReservation\User\Domain;
+namespace LastReservation\Shared\Domain;
 
-use LastReservation\User\Domain\Event\DomainEvent;
+use LastReservation\Shared\Domain\DomainEvent;
 
 /**
  * This class could be in a "shared" bounded context

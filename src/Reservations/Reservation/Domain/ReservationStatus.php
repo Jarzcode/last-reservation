@@ -15,4 +15,4 @@ enum ReservationStatus: string
     {
         return $this->value;
     }
-} 
+}

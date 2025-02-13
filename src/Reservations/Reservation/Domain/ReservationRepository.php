@@ -10,5 +10,6 @@ interface ReservationRepository
     
     public function findById(ReservationId $id): ?Reservation;
     
+    /** @return list<Reservation> */
     public function findAll(): array;
 } 

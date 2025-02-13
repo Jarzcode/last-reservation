@@ -16,6 +16,7 @@ final class ReservationPartySize
     public static function create(int $value): self
     {
         if ($value < self::MIN_SIZE || $value > self::MAX_SIZE) {
+            // TODO: Use a custom exception
             throw new \InvalidArgumentException(
                 sprintf('Party size must be between %d and %d people', self::MIN_SIZE, self::MAX_SIZE)
             );
@@ -28,4 +29,4 @@ final class ReservationPartySize
     {
         return $this->value;
     }
-} 
+}

@@ -10,5 +10,6 @@ interface TableRepository
     
     public function findById(TableId $id): ?Table;
     
+    /** @return list<Table> */
     public function findAll(): array;
-} 
+}

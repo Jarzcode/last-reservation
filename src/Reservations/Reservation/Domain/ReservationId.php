@@ -28,4 +28,4 @@ final class ReservationId
     {
         return $this->value;
     }
-} 
+}
