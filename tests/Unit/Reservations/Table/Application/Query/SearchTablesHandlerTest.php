@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Unit\Reservations\Reservation\Application\Query;
+namespace App\Tests\Unit\Reservations\Table\Application\Query;
 
 use LastReservation\Reservations\Table\Application\Query\SearchTables;
 use LastReservation\Reservations\Table\Application\Query\SearchTablesHandler;

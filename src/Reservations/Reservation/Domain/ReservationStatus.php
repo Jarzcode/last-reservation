@@ -10,6 +10,7 @@ enum ReservationStatus: string
     case CONFIRMED = 'confirmed';
     case CANCELLED = 'cancelled';
     case COMPLETED = 'completed';
+    case WHITELISTED = 'whitelisted';
 
     public function value(): string
     {

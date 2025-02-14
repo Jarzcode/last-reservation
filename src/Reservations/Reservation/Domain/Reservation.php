@@ -18,7 +18,7 @@ class Reservation extends AggregateRoot
         private readonly ReservationName $name,
         private readonly ReservationStartDate $startDate,
         private readonly ReservationEndDate $endDate,
-        private readonly ReservationStatus $status,
+        private ReservationStatus $status,
         private readonly ReservationPartySize $partySize,
     ) {
     }
@@ -26,10 +26,11 @@ class Reservation extends AggregateRoot
     public static function create(
         ReservationId $id,
         RestaurantId $restaurantId,
-        TableId $tableId,
+        ?TableId $tableId,
         ReservationName $name,
         ReservationStartDate $startDate,
         ReservationPartySize $partySize,
+        ?ReservationStatus $reservationStatus = null,
     ): self {
         $reservation = new self(
             id: $id,
@@ -38,7 +39,7 @@ class Reservation extends AggregateRoot
             name: $name,
             startDate: $startDate,
             endDate: $startDate, //TODO: startDate + 45 min
-            status: ReservationStatus::PENDING,
+            status: $reservationStatus ?? ReservationStatus::COMPLETED,
             partySize: $partySize,
         );
 
@@ -81,5 +82,10 @@ class Reservation extends AggregateRoot
     public function status(): ReservationStatus
     {
         return $this->status;
+    }
+
+    public function setStatus(ReservationStatus $status): void
+    {
+        $this->status = $status;
     }
 }
