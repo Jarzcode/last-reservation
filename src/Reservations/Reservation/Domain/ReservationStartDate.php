@@ -25,4 +25,9 @@ final class ReservationStartDate
     {
         return $this->value;
     }
+
+    public function addMinutes(int $int): self
+    {
+        return new self($this->value->modify("+{$int} minutes"));
+    }
 }

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace LastReservation\Reservations\Table\Domain;
+namespace LastReservation\Reservations\Shared;
 
 use Symfony\Component\Uid\Ulid;
 
@@ -26,5 +26,10 @@ final class TableId {
     public function value(): string
     {
         return $this->value;
+    }
+
+    public function equals(TableId $id): bool
+    {
+        return $this->value === $id->value;
     }
 }

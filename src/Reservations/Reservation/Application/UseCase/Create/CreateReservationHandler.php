@@ -3,10 +3,10 @@
 namespace LastReservation\Reservations\Reservation\Application\UseCase\Create;
 
 use LastReservation\Reservations\Reservation\Application\Service\AvailableTableSearcher;
-use LastReservation\Reservations\Reservation\Domain\ReservationRepository;
 use LastReservation\Reservations\Reservation\Domain\Reservation;
+use LastReservation\Reservations\Reservation\Domain\ReservationRepository;
 use LastReservation\Reservations\Reservation\Domain\ReservationStatus;
-use LastReservation\Reservations\Table\Domain\TableId;
+use LastReservation\Reservations\Shared\TableId;
 
 final class CreateReservationHandler
 {

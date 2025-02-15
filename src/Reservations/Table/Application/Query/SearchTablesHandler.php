@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace LastReservation\Reservations\Table\Application\Query;
 
-use LastReservation\Reservations\Table\Domain\TableRepository;
+use LastReservation\Reservations\Shared\TableRepository;
 
 final class SearchTablesHandler
 {

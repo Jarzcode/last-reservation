@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace LastReservation\Reservations\Reservation\Domain;
 
+use LastReservation\Reservations\Reservation\Domain\Event\ReservationCreated;
+use LastReservation\Reservations\Shared\TableId;
 use LastReservation\Shared\Domain\AggregateRoot;
 use LastReservation\Shared\Domain\RestaurantId;
-use LastReservation\Reservations\Table\Domain\TableId;
-use LastReservation\Reservations\Reservation\Domain\Event\ReservationCreated;
 
 class Reservation extends AggregateRoot
 {

@@ -2,11 +2,12 @@
 
 namespace LastReservation\Reservations\Reservation\Infrastructure\Persistence;
 
-
-
 use LastReservation\Reservations\Reservation\Domain\Reservation;
+use LastReservation\Reservations\Reservation\Domain\ReservationEndDate;
 use LastReservation\Reservations\Reservation\Domain\ReservationId;
 use LastReservation\Reservations\Reservation\Domain\ReservationRepository;
+use LastReservation\Reservations\Reservation\Domain\ReservationStartDate;
+use LastReservation\Reservations\Shared\TableId;
 
 final class ReservationInMemoryRepository implements ReservationRepository
 {
@@ -26,5 +27,21 @@ final class ReservationInMemoryRepository implements ReservationRepository
     public function findAll(): array
     {
         return array_values($this->reservations);
+    }
+
+    public function findByTableAndReservationTimes(
+        TableId $tableId,
+        ReservationStartDate $starts,
+        ReservationEndDate $ends,
+    ): ?Reservation {
+        $matchedReservations = array_filter(
+            $this->reservations,
+            function (Reservation $reservation) use ($tableId, $starts, $ends) {
+                return
+                    $reservation->tableId()->equals($tableId) &&
+                    ($reservation->endDate() >= $starts && $reservation->endDate() <= $ends);
+            });
+
+        return reset($matchedReservations) ?: null;
     }
 }

@@ -2,12 +2,12 @@
 
 namespace LastReservation\Reservations\Table\Infrastructure\Persistence;
 
-use LastReservation\Reservations\Table\Domain\Table;
-use LastReservation\Reservations\Table\Domain\TableCapacity;
-use LastReservation\Reservations\Table\Domain\TableId;
-use LastReservation\Reservations\Table\Domain\TableLocation;
-use LastReservation\Reservations\Table\Domain\TableName;
-use LastReservation\Reservations\Table\Domain\TableRepository;
+use LastReservation\Reservations\Shared\Table;
+use LastReservation\Reservations\Shared\TableCapacity;
+use LastReservation\Reservations\Shared\TableId;
+use LastReservation\Reservations\Shared\TableLocation;
+use LastReservation\Reservations\Shared\TableName;
+use LastReservation\Reservations\Shared\TableRepository;
 use LastReservation\Shared\Domain\RestaurantId;
 
 final class TableInMemoryRepository implements TableRepository
