@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace LastReservation\Reservations\Table\Application\Query;
 
-use LastReservation\Reservations\Shared\Table;
+use LastReservation\Reservations\Table\Domain\Table;
 
 final class TableViewAssembler
 {

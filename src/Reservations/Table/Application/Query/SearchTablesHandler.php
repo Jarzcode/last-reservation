@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace LastReservation\Reservations\Table\Application\Query;
 
-use LastReservation\Reservations\Shared\TableRepository;
+use LastReservation\Reservations\Table\Domain\TableCapacity;
+use LastReservation\Reservations\Table\Domain\TableRepository;
 
 final class SearchTablesHandler
 {
@@ -17,7 +18,7 @@ final class SearchTablesHandler
     /** @return list<TableView> */
     public function __invoke(SearchTables $query): array
     {
-        $tables = $this->repository->findAll($query->capacity);
+        $tables = $this->repository->findAll(TableCapacity::create($query->capacity));
 
         return $this->assembler->invoke($tables);
     }
