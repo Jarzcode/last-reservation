@@ -17,7 +17,7 @@ final class SearchTablesHandler
     /** @return list<TableView> */
     public function __invoke(SearchTables $query): array
     {
-        $tables = $this->repository->findAll();
+        $tables = $this->repository->findAll($query->capacity);
 
         return $this->assembler->invoke($tables);
     }

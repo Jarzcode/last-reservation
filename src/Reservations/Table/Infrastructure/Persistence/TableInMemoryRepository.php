@@ -79,8 +79,20 @@ final class TableInMemoryRepository implements TableRepository
         return $this->tables[$id->value()] ?? null;
     }
 
-    public function findAll(): array
+    //TODO: Implement the Criteria pattern
+    public function findAll(?TableCapacity $capacity = null): array
     {
-        return array_values($this->tables);
+        if ($capacity === null) {
+            return array_values($this->tables);
+        }
+
+        $tables = [];
+        foreach($this->tables as $table){
+            if ($table->capacity() >= $capacity) {
+                $tables[] = $table;
+            }
+        }
+
+        return $tables;
     }
 }

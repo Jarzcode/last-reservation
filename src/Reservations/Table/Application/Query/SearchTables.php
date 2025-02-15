@@ -10,6 +10,7 @@ final class SearchTables implements Query
 {
     public function __construct(
         public string $restaurantId,
+        public int $capacity,
     ) {
     }
 }

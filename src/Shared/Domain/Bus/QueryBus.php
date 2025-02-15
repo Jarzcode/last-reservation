@@ -6,5 +6,5 @@ namespace LastReservation\Shared\Domain\Bus;
 
 interface QueryBus
 {
-    public function handle(Query $query);
+    public function ask(Query $query);
 }
