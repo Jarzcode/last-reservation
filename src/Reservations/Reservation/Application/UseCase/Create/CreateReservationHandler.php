@@ -31,21 +31,19 @@ final class CreateReservationHandler
                 startDate: $command->when,
                 partySize: $command->partySize,
             );
-
-            $this->reservationRepository->save($reservation);
-
-            return;
+        } else {
+            $reservation = Reservation::create(
+                id: $command->id,
+                restaurantId: $command->restaurantId,
+                tableId: TableId::create($tableView->id),
+                name: $command->name,
+                startDate: $command->when,
+                partySize: $command->partySize,
+            );
         }
 
-        $reservation = Reservation::create(
-            id: $command->id,
-            restaurantId: $command->restaurantId,
-            tableId: TableId::create($tableView->id),
-            name: $command->name,
-            startDate: $command->when,
-            partySize: $command->partySize,
-        );
-
         $this->reservationRepository->save($reservation);
+
+        $reservation->pullDomainEvents();
     }
 }
