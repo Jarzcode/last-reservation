@@ -15,9 +15,9 @@ interface ReservationRepository
     /** @return list<Reservation> */
     public function findAll(): array;
 
-    public function findByTableAndReservationTimes(
+    public function existsReservationForTheTableAndTime(
         TableId $tableId,
         ReservationStartDate $starts,
         ReservationEndDate $ends,
-    ): ?Reservation;
+    ): bool;
 } 

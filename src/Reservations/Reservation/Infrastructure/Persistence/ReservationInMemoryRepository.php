@@ -29,11 +29,11 @@ final class ReservationInMemoryRepository implements ReservationRepository
         return array_values($this->reservations);
     }
 
-    public function findByTableAndReservationTimes(
+    public function existsReservationForTheTableAndTime(
         TableId $tableId,
         ReservationStartDate $starts,
         ReservationEndDate $ends,
-    ): ?Reservation {
+    ): bool {
         $matchedReservations = array_filter(
             $this->reservations,
             function (Reservation $reservation) use ($tableId, $starts, $ends) {
@@ -42,6 +42,6 @@ final class ReservationInMemoryRepository implements ReservationRepository
                     ($reservation->endDate() >= $starts && $reservation->endDate() <= $ends);
             });
 
-        return reset($matchedReservations) ?: null;
+        return count($matchedReservations) > 0;
     }
 }

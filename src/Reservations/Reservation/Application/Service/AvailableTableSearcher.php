@@ -35,16 +35,16 @@ final class AvailableTableSearcher
         );
 
         foreach($tableViews as $tableView) {
-            $reservation = $this->repository->findByTableAndReservationTimes(
+            $reservation = $this->repository->existsReservationForTheTableAndTime(
                 tableId: TableId::create($tableView->id),
                 starts: $when,
                 ends: ReservationEndDate::create(
-                    $when->addMinutes(45)->value(),
+                    $when->addMinutes(ReservationStartDate::RESERVATION_DURATION)->value(),
                     $when,
                 ),
             );
 
-            if ($reservation !== null) {
+            if (!$reservation) {
                 return $tableView;
             }
         }
