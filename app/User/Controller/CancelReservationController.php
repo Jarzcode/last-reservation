@@ -5,55 +5,53 @@ declare(strict_types=1);
 namespace App\User\Controller;
 
 use Exception;
-use LastReservation\Reservations\Reservation\Application\UseCase\Create\CreateReservation;
+use LastReservation\Reservations\Reservation\Application\UseCase\Cancel\CancelReservation;
 use LastReservation\Reservations\Reservation\Domain\ReservationId;
 use LastReservation\Shared\Domain\Bus\CommandBus;
 use LastReservation\Shared\Domain\Log\Logger;
 use LastReservation\Shared\Domain\RestaurantId;
+use LastReservation\Shared\Domain\UlidIdentification;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class CreateReservationController
+final class CancelReservationController
 {
     public function __construct(
         private readonly CommandBus $commandBus, // This is the domain interface, and the implementation could be the Symfony Bus
-        private readonly Logger $logger, // This is the domain interface, the implementation could be Monolog
+        private readonly Logger $logger // This is the domain interface, the implementation could be Monolog
     ) {
     }
 
     #[Route(
-        path: '/reservations/',
+        path: '/reservations/{id}/cancel',
         name: 'reservation.create',
-        methods: ['POST']
+        requirements: [
+            'id' => UlidIdentification::EMBEDDED_PATTERN,
+        ],
+        methods: ['PATCH']
     )]
-    public function __invoke(Request $request, RestaurantId $restaurantId): JsonResponse
+    public function __invoke(string $id, RestaurantId $restaurantId): JsonResponse
     {
         //TODO: Check authorization
 
-        $reservationId = ReservationId::generate();
+        $this->logger->info('reservation_cancellation_process_start', ['id' => $id]);
 
         try {
             $this->commandBus->handle(
-                new CreateReservation(
+                new CancelReservation(
+                    reservationId: ReservationId::create($id),
                     restaurantId: $restaurantId,
-                    id: $reservationId,
-                    name: $request->get('name'),
-                    email: $request->get('email'),
-                    phone: $request->get('phone'),
-                    when: $request->get('when'),
-                    partySize: $request->get('party_size'),
                 )
             );
 
-            $this->logger->info('reservation_creation_process_finished', ['id' => $reservationId]);
+            $this->logger->info('reservation_cancellation_process_finished', ['id' => $id]);
 
-            return new JsonResponse(['id' => $reservationId], Response::HTTP_CREATED);
+            return new JsonResponse(['id' => $id], Response::HTTP_OK);
         } catch (Exception $exception) {
-            $this->logger->error('reservation_creation_process_failed',
+            $this->logger->error('reservation_cancellation_process_failed',
                 [
-                    'id' => $reservationId,
+                    'id' => $id,
                     'message' => $exception->getMessage()
                 ]
             );

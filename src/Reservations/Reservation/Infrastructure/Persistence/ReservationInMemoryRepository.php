@@ -8,6 +8,7 @@ use LastReservation\Reservations\Reservation\Domain\ReservationId;
 use LastReservation\Reservations\Reservation\Domain\ReservationRepository;
 use LastReservation\Reservations\Reservation\Domain\ReservationStartDate;
 use LastReservation\Reservations\Shared\TableId;
+use LastReservation\Shared\Domain\RestaurantId;
 
 final class ReservationInMemoryRepository implements ReservationRepository
 {
@@ -19,9 +20,15 @@ final class ReservationInMemoryRepository implements ReservationRepository
         $this->reservations[$reservation->id()->value()] = $reservation;
     }
 
-    public function findById(ReservationId $id): ?Reservation
+    public function findById(ReservationId $id, RestaurantId $restaurantId): ?Reservation
     {
-        return $this->reservations[$id->value()] ?? null;
+        $reservation = $this->reservations[$id->value()];
+
+        if ($reservation === null) {
+            return null;
+        }
+
+        return $reservation->restaurantId()->equals($restaurantId) ? $reservation : null;
     }
 
     public function findAll(): array

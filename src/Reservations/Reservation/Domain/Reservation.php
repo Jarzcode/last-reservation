@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace LastReservation\Reservations\Reservation\Domain;
 
+use LastReservation\Reservations\Reservation\Domain\Event\ReservationCancelled;
 use LastReservation\Reservations\Reservation\Domain\Event\ReservationCreated;
 use LastReservation\Reservations\Reservation\Domain\Event\WhiteListedReservationCreated;
 use LastReservation\Reservations\Shared\TableId;
@@ -124,8 +125,16 @@ class Reservation extends AggregateRoot
         return $this->status;
     }
 
-    public function setStatus(ReservationStatus $status): void
+    public function cancel(): void
     {
-        $this->status = $status;
+        $this->status = ReservationStatus::CANCELLED;
+
+        $this->record(new ReservationCancelled(
+            $this->id->value(),
+            $this->tableId->value(),
+            $this->name->value(),
+            $this->startDate->value()->format('Y-m-d H:i:s'),
+            $this->endDate->value()->format('Y-m-d H:i:s'),
+        ));
     }
 }

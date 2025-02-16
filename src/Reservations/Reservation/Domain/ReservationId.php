@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace LastReservation\Reservations\Reservation\Domain;
 
+use LastReservation\Shared\Domain\UlidIdentification;
 use Symfony\Component\Uid\Ulid;
 
-final class ReservationId
+final class ReservationId extends UlidIdentification
 {
-    private function __construct(public string $value)
+    private function __construct(private string $value)
     {
     }
     
