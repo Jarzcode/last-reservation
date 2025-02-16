@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace LastReservation\Reservations\Reservation\Domain;
 
 use LastReservation\Reservations\Reservation\Domain\Event\ReservationCreated;
+use LastReservation\Reservations\Reservation\Domain\Event\WhiteListedReservationCreated;
 use LastReservation\Reservations\Shared\TableId;
 use LastReservation\Shared\Domain\AggregateRoot;
 use LastReservation\Shared\Domain\RestaurantId;
@@ -14,7 +15,7 @@ class Reservation extends AggregateRoot
     private function __construct(
         private readonly ReservationId $id,
         private readonly RestaurantId $restaurantId,
-        private readonly TableId $tableId,
+        private readonly ?TableId $tableId,
         private readonly ReservationName $name,
         private readonly ReservationStartDate $startDate,
         private readonly ReservationEndDate $endDate,
@@ -26,19 +27,23 @@ class Reservation extends AggregateRoot
     public static function create(
         ReservationId $id,
         RestaurantId $restaurantId,
-        ?TableId $tableId,
+        TableId $tableId,
         ReservationName $name,
         ReservationStartDate $startDate,
         ReservationPartySize $partySize,
-        ?ReservationStatus $reservationStatus = null,
     ): self {
+        $endDate = $startDate->addMinutes(45);
+
         $reservation = new self(
             id: $id,
             restaurantId: $restaurantId,
             tableId: $tableId,
             name: $name,
             startDate: $startDate,
-            endDate: $startDate, //TODO: startDate + 45 min
+            endDate: ReservationEndDate::create(
+                $endDate->value(),
+                $startDate,
+            ),
             status: $reservationStatus ?? ReservationStatus::COMPLETED,
             partySize: $partySize,
         );
@@ -50,6 +55,41 @@ class Reservation extends AggregateRoot
             $startDate->value(),
             $endDate->value()
         ));
+
+        return $reservation;
+    }
+
+    public static function createWhiteListed(
+        ReservationId $id,
+        RestaurantId $restaurantId,
+        ReservationName $name,
+        ReservationStartDate $startDate,
+        ReservationPartySize $partySize,
+    ): self {
+        $endDate = ReservationEndDate::create(
+            $startDate->value()->modify('+45 minutes'),
+            $startDate,
+        );
+
+        $reservation = new self(
+            id: $id,
+            restaurantId: $restaurantId,
+            tableId: null,
+            name: $name,
+            startDate: $startDate,
+            endDate: $endDate,
+            status: ReservationStatus::WHITELISTED,
+            partySize: $partySize,
+        );
+
+        $reservation->record(
+            new WhiteListedReservationCreated(
+                reservationId: $id->value(),
+                name: $name->value(),
+                startDate: $startDate->value(),
+                endDate: $endDate->value(),
+            )
+        );
 
         return $reservation;
     }

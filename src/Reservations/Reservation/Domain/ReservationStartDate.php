@@ -8,6 +8,8 @@ use DateTimeImmutable;
 
 final class ReservationStartDate
 {
+    const RESERVATION_DURATION = 45;
+
     private function __construct(private DateTimeImmutable $value)
     {
     }

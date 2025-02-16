@@ -5,7 +5,6 @@ namespace LastReservation\Reservations\Reservation\Application\UseCase\Create;
 use LastReservation\Reservations\Reservation\Application\Service\AvailableTableSearcher;
 use LastReservation\Reservations\Reservation\Domain\Reservation;
 use LastReservation\Reservations\Reservation\Domain\ReservationRepository;
-use LastReservation\Reservations\Reservation\Domain\ReservationStatus;
 use LastReservation\Reservations\Shared\TableId;
 
 final class CreateReservationHandler
@@ -24,6 +23,20 @@ final class CreateReservationHandler
             when: $command->when,
         );
 
+        if ($tableView === null) {
+            $reservation = Reservation::createWhiteListed(
+                id: $command->id,
+                restaurantId: $command->restaurantId,
+                name: $command->name,
+                startDate: $command->when,
+                partySize: $command->partySize,
+            );
+
+            $this->reservationRepository->save($reservation);
+
+            return;
+        }
+
         $reservation = Reservation::create(
             id: $command->id,
             restaurantId: $command->restaurantId,
@@ -32,10 +45,6 @@ final class CreateReservationHandler
             startDate: $command->when,
             partySize: $command->partySize,
         );
-
-        if ($tableView === null) {
-            $reservation->setStatus(ReservationStatus::WHITELISTED);
-        }
 
         $this->reservationRepository->save($reservation);
     }

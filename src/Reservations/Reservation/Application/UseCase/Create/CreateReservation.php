@@ -2,9 +2,11 @@
 
 namespace LastReservation\Reservations\Reservation\Application\UseCase\Create;
 
+use LastReservation\Reservations\Reservation\Domain\ReservationEmail;
 use LastReservation\Reservations\Reservation\Domain\ReservationId;
 use LastReservation\Reservations\Reservation\Domain\ReservationName;
 use LastReservation\Reservations\Reservation\Domain\ReservationPartySize;
+use LastReservation\Reservations\Reservation\Domain\ReservationPhone;
 use LastReservation\Reservations\Reservation\Domain\ReservationStartDate;
 use LastReservation\Shared\Domain\Bus\Command;
 use LastReservation\Shared\Domain\RestaurantId;
