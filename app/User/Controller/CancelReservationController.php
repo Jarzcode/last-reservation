@@ -25,7 +25,7 @@ final class CancelReservationController
 
     #[Route(
         path: '/reservations/{id}/cancel',
-        name: 'reservation.create',
+        name: 'reservation.cancel',
         requirements: [
             'id' => UlidIdentification::EMBEDDED_PATTERN,
         ],

@@ -14,7 +14,7 @@ use LastReservation\Reservations\Table\Application\Query\TableView;
 use LastReservation\Shared\Domain\Bus\QueryBus;
 use LastReservation\Shared\Domain\RestaurantId;
 
-final class AvailableTableSearcher
+class AvailableTableSearcher
 {
     public function __construct(
         private readonly ReservationRepository $repository,

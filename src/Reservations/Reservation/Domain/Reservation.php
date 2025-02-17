@@ -16,12 +16,12 @@ class Reservation extends AggregateRoot
     private function __construct(
         private readonly ReservationId $id,
         private readonly RestaurantId $restaurantId,
-        private readonly ?TableId $tableId,
-        private readonly ReservationName $name,
-        private readonly ReservationStartDate $startDate,
-        private readonly ReservationEndDate $endDate,
+        private ?TableId $tableId,
+        private ReservationName $name,
+        private ReservationStartDate $startDate,
+        private ReservationEndDate $endDate,
         private ReservationStatus $status,
-        private readonly ReservationPartySize $partySize,
+        private ReservationPartySize $partySize,
     ) {
     }
 
@@ -105,14 +105,35 @@ class Reservation extends AggregateRoot
         return $this->tableId;
     }
 
+    public function changeTableId(TableId $tableId): void
+    {
+        $this->tableId = $tableId;
+
+        //TODO: throw a domain event if we need to sync with other services
+    }
+
     public function name(): ReservationName
     {
         return $this->name;
     }
-    
+
+    public function changeName(ReservationName $name): void
+    {
+        $this->name = $name;
+
+        //TODO: throw a domain event if we need to sync with other services
+    }
+
     public function startDate(): ReservationStartDate
     {
         return $this->startDate;
+    }
+
+    public function changeStartDate(ReservationStartDate $startDate): void
+    {
+        $this->startDate = $startDate;
+
+        //TODO: throw a domain event if we need to sync with other services
     }
 
     public function endDate(): ReservationEndDate
@@ -120,11 +141,29 @@ class Reservation extends AggregateRoot
         return $this->endDate;
     }
 
+    public function changeEndDate(ReservationEndDate $endDate): void
+    {
+        $this->endDate = $endDate;
+
+        //TODO: throw a domain event if we need to sync with other services
+    }
+
     public function status(): ReservationStatus
     {
         return $this->status;
     }
 
+    public function partySize(): ReservationPartySize
+    {
+        return $this->partySize;
+    }
+
+    public function changePartySize(ReservationPartySize $partySize): void
+    {
+        $this->partySize = $partySize;
+
+        //TODO: throw a domain event if we need to sync with other services
+    }
     public function cancel(): void
     {
         $this->status = ReservationStatus::CANCELLED;
