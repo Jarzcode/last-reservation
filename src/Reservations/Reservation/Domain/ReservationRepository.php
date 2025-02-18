@@ -14,7 +14,7 @@ interface ReservationRepository
     public function findById(ReservationId $id, RestaurantId $restaurantId): ?Reservation;
     
     /** @return list<Reservation> */
-    public function findAll(): array;
+    public function findAll(RestaurantId $restaurantId): array;
 
     public function existsReservationForTheTableAndTime(
         TableId $tableId,

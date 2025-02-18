@@ -31,9 +31,13 @@ final class ReservationInMemoryRepository implements ReservationRepository
         return $reservation->restaurantId()->equals($restaurantId) ? $reservation : null;
     }
 
-    public function findAll(): array
+    public function findAll(RestaurantId $restaurantId): array
     {
-        return array_values($this->reservations);
+        return array_filter(
+            $this->reservations,
+            function (Reservation $reservation) use ($restaurantId) {
+                return $reservation->restaurantId()->equals($restaurantId);
+            });
     }
 
     public function existsReservationForTheTableAndTime(

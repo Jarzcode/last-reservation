@@ -8,7 +8,7 @@ use Symfony\Component\Uid\Ulid;
 
 final class RestaurantId
 {
-    private function __construct(public string $value)
+    private function __construct(private string $value)
     {
     }
     
@@ -27,5 +27,10 @@ final class RestaurantId
     public function value(): string
     {
         return $this->value;
+    }
+
+    public function equals(RestaurantId $restaurantId): bool
+    {
+        return $this->value() === $restaurantId->value();
     }
 }

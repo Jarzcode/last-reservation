@@ -13,7 +13,7 @@ use LastReservation\Shared\Domain\RestaurantId;
 
 class Reservation extends AggregateRoot
 {
-    private function __construct(
+    public function __construct(
         private readonly ReservationId $id,
         private readonly RestaurantId $restaurantId,
         private ?TableId $tableId,
@@ -100,6 +100,11 @@ class Reservation extends AggregateRoot
         return $this->id;
     }
 
+    public function restaurantId(): RestaurantId
+    {
+        return $this->restaurantId;
+    }
+
     public function tableId(): TableId
     {
         return $this->tableId;
@@ -157,13 +162,13 @@ class Reservation extends AggregateRoot
     {
         return $this->partySize;
     }
-
     public function changePartySize(ReservationPartySize $partySize): void
     {
         $this->partySize = $partySize;
 
         //TODO: throw a domain event if we need to sync with other services
     }
+
     public function cancel(): void
     {
         $this->status = ReservationStatus::CANCELLED;
