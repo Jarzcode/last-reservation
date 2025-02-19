@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace LastReservation\Reservations\Table\Domain;
 
+use LastReservation\Reservations\Shared\TableId;
 use LastReservation\Shared\Domain\AggregateRoot;
 use LastReservation\Shared\Domain\RestaurantId;
 
@@ -66,5 +67,10 @@ class Table extends AggregateRoot
     public function location(): TableLocation
     {
         return $this->location;
+    }
+
+    public function restaurantId()
+    {
+        return $this->restaurantId;
     }
 }

@@ -2,12 +2,13 @@
 
 namespace LastReservation\Reservations\Table\Infrastructure\Persistence;
 
-use LastReservation\Reservations\Shared\Table;
-use LastReservation\Reservations\Shared\TableCapacity;
+
 use LastReservation\Reservations\Shared\TableId;
-use LastReservation\Reservations\Shared\TableLocation;
-use LastReservation\Reservations\Shared\TableName;
-use LastReservation\Reservations\Shared\TableRepository;
+use LastReservation\Reservations\Table\Domain\Table;
+use LastReservation\Reservations\Table\Domain\TableCapacity;
+use LastReservation\Reservations\Table\Domain\TableLocation;
+use LastReservation\Reservations\Table\Domain\TableName;
+use LastReservation\Reservations\Table\Domain\TableRepository;
 use LastReservation\Shared\Domain\RestaurantId;
 
 final class TableInMemoryRepository implements TableRepository
@@ -19,7 +20,7 @@ final class TableInMemoryRepository implements TableRepository
     {
         $this->tables = [
             '1' => new Table(
-                id: TableId::create('01JM0Q5229XEV9XDQR2ZXVFM6R'),
+                id:   TableId::create('01JM0Q5229XEV9XDQR2ZXVFM6R'),
                 restaurantId: RestaurantId::create('123'),
                 name: TableName::create('Table 1'),
                 capacity: TableCapacity::create(4),
@@ -80,10 +81,14 @@ final class TableInMemoryRepository implements TableRepository
     }
 
     //TODO: Implement the Criteria pattern
-    public function findAll(?TableCapacity $capacity = null): array
+    /** @return list<Table> */
+    public function findAll(RestaurantId $restaurantId, ?TableCapacity $capacity = null): array
     {
         if ($capacity === null) {
-            return array_values($this->tables);
+            return array_filter(
+                $this->tables,
+                fn(Table $table) => $table->restaurantId()->equals($restaurantId)
+            );
         }
 
         $tables = [];

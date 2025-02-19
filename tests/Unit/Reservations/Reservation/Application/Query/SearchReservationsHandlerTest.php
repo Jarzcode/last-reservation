@@ -6,6 +6,7 @@ namespace App\Tests\Unit\Reservations\Reservation\Application\Query;
 
 use DateTimeImmutable;
 use LastReservation\Reservations\Reservation\Application\Query\ReservationView;
+use LastReservation\Reservations\Reservation\Application\Query\ReservationViewAssembler;
 use LastReservation\Reservations\Reservation\Application\Query\SearchReservations;
 use LastReservation\Reservations\Reservation\Application\Query\SearchReservationsHandler;
 use LastReservation\Reservations\Reservation\Domain\Reservation;

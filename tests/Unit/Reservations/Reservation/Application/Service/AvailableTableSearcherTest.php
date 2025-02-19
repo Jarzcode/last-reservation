@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit\Reservations\Reservation\Application\Service;
 
-use Monolog\Test\TestCase;
+use PHPUnit\Framework\TestCase;
 
 final class AvailableTableSearcherTest extends TestCase
 {

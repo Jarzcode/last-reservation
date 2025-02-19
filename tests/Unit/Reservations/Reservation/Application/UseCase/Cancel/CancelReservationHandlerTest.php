@@ -18,7 +18,7 @@ use LastReservation\Reservations\Reservation\Domain\ReservationStatus;
 use LastReservation\Reservations\Reservation\Domain\Service\ReservationFinder;
 use LastReservation\Reservations\Shared\TableId;
 use LastReservation\Shared\Domain\RestaurantId;
-use Monolog\Test\TestCase;
+use PHPUnit\Framework\TestCase;
 
 final class CancelReservationHandlerTest extends TestCase
 {

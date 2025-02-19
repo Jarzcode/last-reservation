@@ -13,6 +13,9 @@ use LastReservation\Shared\Domain\RestaurantId;
 
 class Reservation extends AggregateRoot
 {
+    public const START_TIME = '13:00:00'; // It should come from the restaurant settings
+    public const END_TIME = '23:00:00'; // It should come from the restaurant settings
+
     public function __construct(
         private readonly ReservationId $id,
         private readonly RestaurantId $restaurantId,

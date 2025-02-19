@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace LastReservation\Reservations\Reservation\Domain;
 
+use DateTimeImmutable;
 use LastReservation\Reservations\Shared\TableId;
 use LastReservation\Shared\Domain\RestaurantId;
 
@@ -21,4 +22,11 @@ interface ReservationRepository
         ReservationStartDate $starts,
         ReservationEndDate $ends,
     ): bool;
+
+    /** @return list<Reservation> */
+    public function findReservationsByTableAndDate(
+        TableId $tableId,
+        RestaurantId $restaurantId,
+        DateTimeImmutable $date,
+    ): array;
 } 

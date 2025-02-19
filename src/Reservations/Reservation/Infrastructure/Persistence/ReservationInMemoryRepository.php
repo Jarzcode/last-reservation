@@ -2,6 +2,7 @@
 
 namespace LastReservation\Reservations\Reservation\Infrastructure\Persistence;
 
+use DateTimeImmutable;
 use LastReservation\Reservations\Reservation\Domain\Reservation;
 use LastReservation\Reservations\Reservation\Domain\ReservationEndDate;
 use LastReservation\Reservations\Reservation\Domain\ReservationId;
@@ -54,5 +55,32 @@ final class ReservationInMemoryRepository implements ReservationRepository
             });
 
         return count($matchedReservations) > 0;
+    }
+
+    public function findReservationsByTableAndDate(
+        TableId $tableId,
+        RestaurantId $restaurantId,
+        DateTimeImmutable $date,
+    ): array {
+        $reservations = array_filter(
+            $this->reservations,
+            function (Reservation $reservation) use ($tableId, $restaurantId, $date) {
+                return
+                    $reservation->tableId()->equals($tableId) &&
+                    $reservation->restaurantId()->equals($restaurantId) &&
+                    $reservation->startDate()->value()->format('Y-m-d') === $date->format('Y-m-d');
+            });
+
+        $this->orderByStartDateAsc($reservations);
+
+        return $reservations;
+    }
+
+    /** @param list<Reservation> $reservations */
+    private function orderByStartDateAsc(array &$reservations): void
+    {
+        usort($reservations, function (Reservation $a, Reservation $b) {
+            return $a->startDate() <=> $b->startDate();
+        });
     }
 }
