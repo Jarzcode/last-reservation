@@ -16,4 +16,9 @@ enum ReservationStatus: string
     {
         return $this->value;
     }
+
+    public function isWhiteListed(): bool
+    {
+        return $this->value === self::WHITELISTED->value();
+    }
 }

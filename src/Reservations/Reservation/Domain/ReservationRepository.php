@@ -29,4 +29,10 @@ interface ReservationRepository
         RestaurantId $restaurantId,
         DateTimeImmutable $date,
     ): array;
+
+    public function findFirstWhiteListedByPartySize(
+        RestaurantId $restaurantId,
+        ReservationPartySize $partySize,
+        ReservationStartDate $startDate,
+    ): ?Reservation;
 } 

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace LastReservation\Shared\Domain\Bus;
 
-use LastReservation\User\Domain\Event\DomainEvent;
+use LastReservation\Shared\Domain\DomainEvent;
 
 interface DomainEventBus
 {

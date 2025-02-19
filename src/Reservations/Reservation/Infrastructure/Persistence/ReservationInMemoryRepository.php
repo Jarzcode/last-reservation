@@ -6,8 +6,10 @@ use DateTimeImmutable;
 use LastReservation\Reservations\Reservation\Domain\Reservation;
 use LastReservation\Reservations\Reservation\Domain\ReservationEndDate;
 use LastReservation\Reservations\Reservation\Domain\ReservationId;
+use LastReservation\Reservations\Reservation\Domain\ReservationPartySize;
 use LastReservation\Reservations\Reservation\Domain\ReservationRepository;
 use LastReservation\Reservations\Reservation\Domain\ReservationStartDate;
+use LastReservation\Reservations\Reservation\Domain\ReservationStatus;
 use LastReservation\Reservations\Shared\TableId;
 use LastReservation\Shared\Domain\RestaurantId;
 
@@ -74,6 +76,33 @@ final class ReservationInMemoryRepository implements ReservationRepository
         $this->orderByStartDateAsc($reservations);
 
         return $reservations;
+    }
+
+    public function findFirstWhiteListedByPartySize(
+        RestaurantId $restaurantId,
+        ReservationPartySize $partySize,
+        ReservationStartDate $startDate,
+    ): ?Reservation {
+        $reservations = array_filter(
+            $this->reservations,
+            function (Reservation $reservation) use ($restaurantId, $partySize, $startDate) {
+                return
+                    $reservation->restaurantId()->equals($restaurantId) &&
+                    $reservation->partySize()->equals($partySize) &&
+                    $this->areInTheSameDay($reservation, $startDate) &&
+                    $reservation->status()->isWhiteListed();
+            });
+
+        return reset($reservations) ?: null;
+    }
+
+    private function areInTheSameDay(Reservation $reservation, ReservationStartDate $startDate): bool
+    {
+        return
+            (new DateTimeImmutable($reservation->startDate()->value()))
+                ->format('Y-m-d') ===
+            (new DateTimeImmutable($startDate->value()))
+                ->format('Y-m-d');
     }
 
     /** @param list<Reservation> $reservations */

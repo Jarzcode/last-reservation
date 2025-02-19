@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace LastReservation\Reservations\Reservation\Domain;
 
+use DateTimeImmutable;
 use LastReservation\Reservations\Reservation\Domain\Event\ReservationCancelled;
 use LastReservation\Reservations\Reservation\Domain\Event\ReservationCreated;
 use LastReservation\Reservations\Reservation\Domain\Event\WhiteListedReservationCreated;
@@ -15,6 +16,7 @@ class Reservation extends AggregateRoot
 {
     public const START_TIME = '13:00:00'; // It should come from the restaurant settings
     public const END_TIME = '23:00:00'; // It should come from the restaurant settings
+    public const RESERVATION_DURATION = 'PT45M';
 
     public function __construct(
         private readonly ReservationId $id,
@@ -165,6 +167,7 @@ class Reservation extends AggregateRoot
     {
         return $this->partySize;
     }
+
     public function changePartySize(ReservationPartySize $partySize): void
     {
         $this->partySize = $partySize;
@@ -177,6 +180,26 @@ class Reservation extends AggregateRoot
         $this->status = ReservationStatus::CANCELLED;
 
         $this->record(new ReservationCancelled(
+            id: $this->id->value(),
+            restaurantId: $this->restaurantId->value(),
+            tableId: $this->tableId->value(),
+            name: $this->name->value(),
+            partySize: $this->partySize->value(),
+            start: $this->startDate->value()->format('Y-m-d H:i:s'),
+            end: $this->endDate->value()->format('Y-m-d H:i:s'),
+        ));
+    }
+
+    public function setStartDate(ReservationStartDate $startDate): void
+    {
+        $this->startDate = $startDate;
+    }
+
+    public function pending(): void
+    {
+        $this->status = ReservationStatus::CANCELLED;
+
+        $this->record(new ReservationChangedToPending(
             $this->id->value(),
             $this->tableId->value(),
             $this->name->value(),

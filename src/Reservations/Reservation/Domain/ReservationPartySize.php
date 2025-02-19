@@ -29,4 +29,9 @@ final class ReservationPartySize
     {
         return $this->value;
     }
+
+    public function equals(ReservationPartySize $partySize): bool
+    {
+        return $this->value === $partySize->value;
+    }
 }

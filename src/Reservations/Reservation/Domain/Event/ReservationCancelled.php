@@ -11,7 +11,9 @@ final class ReservationCancelled implements DomainEvent
     public function __construct(
         public string $id,
         public string $restaurantId,
+        public string $tableId,
         public string $name,
+        public int $partySize,
         public string $start,
         public string $end,
     ) {
