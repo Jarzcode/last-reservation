@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace LastReservation\Reservations\Reservation\Application\Query;
 
-final class AvailabilityPeriodView
+final class AvailabilitySlotView
 {
     public function __construct(
         public string $start,

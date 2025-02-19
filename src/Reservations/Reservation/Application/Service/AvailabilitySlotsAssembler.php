@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace LastReservation\Reservations\Reservation\Application\Service;
 
 use DateTimeImmutable;
-use LastReservation\Reservations\Reservation\Application\Query\AvailabilityPeriodView;
+use LastReservation\Reservations\Reservation\Application\Query\AvailabilitySlotView;
 use LastReservation\Reservations\Reservation\Domain\Reservation;
 
 class AvailabilitySlotsAssembler
 {
     /**
      * @param list<Reservation> $tableReservationsForTheDate
-     * @return list<AvailabilityPeriodView>
+     * @return list<AvailabilitySlotView>
      */
     public function invoke(array $tableReservationsForTheDate): array
     {
@@ -22,7 +22,7 @@ class AvailabilitySlotsAssembler
 
         if (empty($tableReservationsForTheDate)) {
             return [
-                new AvailabilityPeriodView(
+                new AvailabilitySlotView(
                     start: $startTime->format('H:i:s'),
                     end: $endTime->format('H:i:s'),
                     available: true,
@@ -65,13 +65,13 @@ class AvailabilitySlotsAssembler
         ?Reservation $previousReservation,
         Reservation $currentReservation,
         DateTimeImmutable $startTime
-    ): ?AvailabilityPeriodView {
+    ): ?AvailabilitySlotView {
         if ($previousReservation === null) {
             return null;
         }
 
         if ($currentReservation->startDate()->value() > $startTime) {
-            return  new AvailabilityPeriodView(
+            return  new AvailabilitySlotView(
                 start: $startTime->format('H:i:s'),
                 end: $currentReservation->startDate()->value()->format('H:i:s'),
                 available: true,
@@ -84,7 +84,7 @@ class AvailabilitySlotsAssembler
     /**
      * @param Reservation|null $previousReservation
      * @param Reservation $currentReservation
-     * @return list<AvailabilityPeriodView>
+     * @return list<AvailabilitySlotView>
      */
     public function setSlotsBetweenReservations(
         ?Reservation $previousReservation,
@@ -96,14 +96,14 @@ class AvailabilitySlotsAssembler
             $previousReservation !== null
             && $currentReservation->startDate()->value() > $previousReservation->endDate()->value()
         ) {
-            $tableSlots[] = new AvailabilityPeriodView(
+            $tableSlots[] = new AvailabilitySlotView(
                 start: $previousReservation->endDate()->value()->format('H:i:s'),
                 end: $currentReservation->startDate()->value()->format('H:i:s'),
                 available: true,
             );
         }
 
-        $tableSlots[] = new AvailabilityPeriodView(
+        $tableSlots[] = new AvailabilitySlotView(
             start: $currentReservation->startDate()->value()->format('H:i:s'),
             end: $currentReservation->endDate()->value()->format('H:i:s'),
             available: false,
@@ -117,13 +117,13 @@ class AvailabilitySlotsAssembler
         DateTimeImmutable $endTime,
         int $numberOfReservations,
         int $reservationIndex
-    ): ?AvailabilityPeriodView {
+    ): ?AvailabilitySlotView {
         if ($numberOfReservations > $reservationIndex) {
             return null;
         }
 
         if ($currentReservation->endDate()->value() < $endTime) {
-            return new AvailabilityPeriodView(
+            return new AvailabilitySlotView(
                 start: $currentReservation->endDate()->value()->format('H:i:s'),
                 end: $endTime->format('H:i:s'),
                 available: true,

@@ -8,7 +8,7 @@ use LastReservation\Reservations\Table\Application\Query\TableView;
 
 final class TableAvailabilityView
 {
-    /** @param list<AvailabilityPeriodView> $availabilitySlots */
+    /** @param list<AvailabilitySlotView> $availabilitySlots */
     public function __construct(
         public TableView $table,
         public array $availabilitySlots,
