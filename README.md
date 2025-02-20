@@ -4,6 +4,14 @@
 
 Last Reservation is an API designed to manage reservations for multiple restaurants. It is built with scalability in mind, following DDD and Hexagonal Architecture principles, leveraging event-driven architecture and asynchronous processing to handle high loads efficiently.
 
+## Note
+This is not a fully functional application. It is a demo project to show how the API would work in a real-world scenario.
+Next steps to make it a fully functional application: 
+- Add the Docker containers for the RabbitMQ, for the cronjob that sends the email notifications, for the Nginx server and PHP, and for the MySQL database.
+- Use the ORM to interact with the database.
+- Configure the command and query buses.
+- Send real emails instead of using a log file.
+
 ## Features
 
 - **Multi-Restaurant Support**: Manage reservations for multiple restaurants within a single system.
