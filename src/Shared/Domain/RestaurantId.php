@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace LastReservation\Shared\Domain;
 
-use Symfony\Component\Uid\Ulid;
+use Symfony\Component\Uid\Ulid; //I've decided to couple to this library in my domain
 
 final class RestaurantId
 {

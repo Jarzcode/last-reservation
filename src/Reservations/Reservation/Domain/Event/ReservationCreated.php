@@ -13,6 +13,7 @@ final class ReservationCreated implements DomainEvent
         public readonly string $id,
         public readonly string $tableId,
         public readonly string $name,
+        public readonly string $status,
         public readonly DateTimeImmutable $startDate,
         public readonly DateTimeImmutable $endDate,
     ) {
