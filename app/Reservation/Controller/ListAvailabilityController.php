@@ -27,6 +27,8 @@ class ListAvailabilityController
     )]
     public function __invoke(Request $request, RestaurantId $restaurantId): JsonResponse
     {
+        //TODO: Check authorization
+
         $result = $this->queryBus->ask(
             new SearchAvailability(
                 restaurantId: $restaurantId->value(),

@@ -24,6 +24,8 @@ class ListReservationsController
     )]
     public function __invoke(RestaurantId $restaurantId): JsonResponse
     {
+        //TODO: Check authorization
+
         $result = $this->queryBus->ask(
             new SearchReservations(restaurantId: $restaurantId->value()
             )

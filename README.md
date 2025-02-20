@@ -11,6 +11,7 @@ Next steps to make it a fully functional application:
 - Use the ORM to interact with the database.
 - Configure the command and query buses.
 - Send real emails instead of using a log file.
+- Implement a real authentication/authorization system.
 
 ## Features
 
