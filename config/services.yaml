@@ -6,6 +6,10 @@
 parameters:
 
 services:
+    services:
+        LastReservation\Shared\Infrastructure\ConsoleCommand\CreateReservationCommand:
+            tags: ['console.command']
+
     # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
