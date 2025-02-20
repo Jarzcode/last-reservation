@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\User\Controller;
+namespace App\Reservation\Controller;
 
 use Exception;
 use LastReservation\Reservations\Reservation\Application\UseCase\Create\CreateReservation;

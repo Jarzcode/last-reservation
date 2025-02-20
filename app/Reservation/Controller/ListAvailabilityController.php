@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\User\Controller;
+namespace App\Reservation\Controller;
 
 use LastReservation\Reservations\Reservation\Application\Query\SearchAvailability;
 use LastReservation\Reservations\Shared\Infrastructure\AvailableSlots15MinutesSplitter;
