@@ -19,8 +19,14 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ * This is the console command to send email notifications to the owners of the reservations.
+ * The idea is that this command will be executed by a cron job, that runs this command every minute.
+ * If the reservation starts in one hour, the owner will receive an email notification.
+ */
 final class SendEmailNotificationCommand extends Command
 {
+    private const PREVIOUS_TIME = '1 hour';
     protected static $defaultName = 'last-app:send-email-notification';
 
     public function __construct(
@@ -45,8 +51,7 @@ final class SendEmailNotificationCommand extends Command
         $notificationsToSend = $this->queryBus->ask(
             new SearchNotificationsByDate(
                 $restaurantId->value(),
-                (new DateTimeImmutable('now'))->format('Y-m-d H:i:s')
-            )
+                (new DateTimeImmutable('now +' . self::PREVIOUS_TIME))->format('Y-m-d H:i:s'))
         );
 
         foreach ($notificationsToSend as $notification) {
