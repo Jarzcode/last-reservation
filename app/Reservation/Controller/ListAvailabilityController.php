@@ -10,6 +10,7 @@ use LastReservation\Shared\Domain\Bus\QueryBus;
 use LastReservation\Shared\Domain\RestaurantId;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 class ListAvailabilityController
 {
@@ -19,6 +20,11 @@ class ListAvailabilityController
     ) {
     }
 
+    #[Route(
+        path: '/reservations/availability',
+        name: 'reservation.list_availability',
+        methods: ['GET']
+    )]
     public function __invoke(Request $request, RestaurantId $restaurantId): JsonResponse
     {
         $result = $this->queryBus->ask(
